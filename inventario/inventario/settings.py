@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'computo_smartnet1402',
         'USER': 'postgres',
         'PASSWORD': 'magdalena149',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
