@@ -1,56 +1,62 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 
-from .models import Producto
+from .models import Producto, Colaborador
 
 
 #IMPORTANDO METODOS PARA AUTENTICACIÓN DE USUARIOS
 from django.contrib.auth import authenticate,login,logout
 
 from django.contrib.auth.models import User
-from inventarioComputo.forms import UsuarioForm        
+from inventarioComputo.forms import ColaboradorForm,UsuarioForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
     lista_productos = Producto.objects.all()
     print(settings.MEDIA_URL)
-    context = {'lstProductos' : lista_productos}
-    
+    context = {'lstProductos': lista_productos}
     return render(request,'index.html',context)
-    
+
+def producto(request,producto_id):
+    objProducto = Producto.objects.get(id=producto_id) 
+    #equivalente a : select * from producto where id = producto_id
+    context = {
+        "producto":objProducto
+    }
+    return render(request,'producto.html',context)
+
 def registro(request):
-    frmCliente = ClienteForm()
+    frmColaborador = ColaboradorForm()
     
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        frmNuevoCliente = ClienteForm(request.POST)
+        frmNuevoColaborador = ColaboradorForm(request.POST)
         # check whether it's valid:
-        if frmNuevoCliente.is_valid():
-            data = frmNuevoCliente.cleaned_data
+        if frmColaborador.is_valid():
+            data = frmNuevoColaborador.cleaned_data
             dataUsuario = data['usuario']
             dataPassword = data['clave']
             #creamos usuarios
             nuevoUsuario = User.objects.create_user(username=dataUsuario,password=dataPassword)
-            
+ 
             nuevoUsuario.first_name = data['nombres']
             nuevoUsuario.last_name = data['apellidos']
-            nuevoUsuario.email = data['email']
-            nuevoUsuario.save()
+            nuevoUsuario.email = data['correo']
+            nuevoUsuario.save()       
             
-            nuevoCliente = Cliente(usuario=nuevoUsuario)
-            nuevoCliente.telefono = data['telefono']
-            nuevoCliente.direccion = data['direccion']
-            nuevoCliente.doc_ide = data['doc_ide']
-            nuevoCliente.save()
+            nuevoColaborador = Colaborador (usuario=nuevoUsuario)
+            nuevoColaborador.telefono = data['telefono']
+            nuevoColaborador.doc_ide = data['doc_ide']
+            nuevoColaborador.save()
             
             return render(request,'graciasRegistro.html')
-            
+     
     context = {
-        'frmCliente':frmCliente
-    }
-    return render(request,'registroCliente.html',context)
-
+         'frmColaborador': frmColaborador
+     }     
+    return render(request,'registroColaborador.html',context)
+     
 def loginUsuario(request):
     frmUsuario = UsuarioForm()
     
@@ -79,18 +85,10 @@ def loginUsuario(request):
     context = {
         'form':frmUsuario
     }
-    return render(request,'login.html',context)    
-
-def producto(request,producto_id):
-    objProducto = Producto.objects.get(id=producto_id) 
-    #equivalente a : select * from producto where id = producto_id
-    context = {
-        "producto":objProducto
-    }
-    return render(request,'producto.html',context)
-
+    return render(request,'login.html',context)     
+    
 @login_required
 def logout_view(request):
     """Logout a user."""
     logout(request)
-    return redirect('/login')
+    return redirect('/login')    

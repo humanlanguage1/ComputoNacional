@@ -20,10 +20,10 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls import static
 
+from django.http import HttpResponse
 
 urlpatterns = [
     
-   # path('inventarioComputo/', include('inventarioComputo.urls')),
-    path('inventarioComputo/', include('inventarioComputo.urls')),
+    path('', include('inventarioComputo.urls')),
     path('admin/', admin.site.urls),
 ]
