@@ -1,3 +1,4 @@
+from .models import Producto
 class gestionProducto:
     def __init__(self,request):
         self.request = request
@@ -7,8 +8,8 @@ class gestionProducto:
             gestionar = self.session["gestionar"] = {}
         self.gestionar = gestionar
         
-    def add(self,producto,qty):
-        if str(producto.cod_producto) not in self.cart.keys():
+    def add(self,producto):
+        if str(producto.cod_producto) not in self.gestionar.keys():
             self.cart[producto.cod_producto] = {
                 "cod_empresa": producto.cod_empresa,
                 "cod_producto": producto.cod_producto,
@@ -50,7 +51,7 @@ class gestionProducto:
         
     def remove(self,producto):
         cod_producto = str(producto.cod_producto)
-        if cod_producto in self.cart:
+        if cod_producto in self.gestionar:
             del self.gestionar[cod_producto]
             self.save()
             
