@@ -1,5 +1,5 @@
 from .models import Producto
-class gestionProducto:
+class GestionProducto:
     def __init__(self,request):
         self.request = request
         self.session = request.session

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 
 from .models import Producto, Colaborador
-
+from inventarioComputo import gestionProducto
 
 #IMPORTANDO METODOS PARA AUTENTICACIÓN DE USUARIOS
 from django.contrib.auth import authenticate,login,logout
@@ -17,14 +17,6 @@ def index(request):
     print(settings.MEDIA_URL)
     context = {'lstProductos': lista_productos}
     return render(request,'index.html',context)
-
-def producto(request,producto_id):
-    objProducto = Producto.objects.get(id=producto_id) 
-    #equivalente a : select * from producto where id = producto_id
-    context = {
-        "producto":objProducto
-    }
-    return render(request,'producto.html',context)
 
 def registro(request):
     frmColaborador = ColaboradorForm()
@@ -86,6 +78,33 @@ def loginUsuario(request):
         'form':frmUsuario
     }
     return render(request,'login.html',context)     
+
+def producto(request,cod_producto):
+    objProducto = Producto.objects.get(id=cod_producto) 
+    #equivalente a : select * from producto where id = producto_id
+    context = {
+        "producto":objProducto
+    }
+    return render(request,'producto.html',context)
+
+def agregarProd(request,cod_producto):
+    objProducto = Producto.objects.get(id=cod_producto)
+    gestionarProd = gestionProducto(request)
+    gestionarProd.add(objProducto,1)
+    print(request.session.get("gestionar"))
+    return render(request,'gestionProducto.html')
+
+def eliminarProducto(request):
+    objProducto = Producto.objects.get(id=cod_producto)
+    gestionarProd = gestionProducto(request)
+    gestionarProd.add(objProducto) 
+    print(request.session.get("gestionar"))
+    return render(request, 'gestionProducto.html')
+
+            
+def gestionar(request):
+    print(request.session.get("gestionProducto"))
+    return render(request,'gestionProducto.html')
     
 @login_required
 def logout_view(request):

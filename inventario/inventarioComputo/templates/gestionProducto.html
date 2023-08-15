@@ -4,7 +4,7 @@
     <!-- Shopping cart table -->
     <div class="card">
         <div class="card-header">
-            <h2>Carrito de Compras</h2>
+            <h2>Gestionar Productos</h2>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -24,29 +24,22 @@
                   <tr>
                     <td class="p-4">
                       <div class="media align-items-center">
-                        <img src="{{ value.imagen }}" width="100px" class="d-block ui-w-40 ui-bordered mr-4" alt="">
                         <div class="media-body">
-                          <a href="{% url 'tienda:producto' value.producto_id %}" class="d-block text-dark">{{ value.nombre }}</a>
+                          <a href="{% url 'inventarioComputo:producto' value.cod_producto %}" class="d-block text-dark">{{ value.des_producto }}</a>
                         </div>
                       </div>
                     </td>
-                    <td class="text-right font-weight-semibold align-middle p-4">{{ value.precio }}</td>
-                    <td class="align-middle p-4"><input type="text" class="form-control text-center" value="{{ value.cantidad }}"></td>
-                    <td class="text-right font-weight-semibold align-middle p-4">{{ value.total }}</td>
-                    <td class="text-center align-middle px-0"><a href="{% url 'tienda:eliminarProductoCarrito' value.producto_id %}" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td>
+                    <td class="text-right font-weight-semibold align-middle p-4">{{ value.pre_venta_oferta }}</td>
+                    <td class="align-middle p-4"><input type="text" class="form-control text-center" value="{{ value.stk_minimo }}"></td>
+                    <td class="text-right font-weight-semibold align-middle p-4">{{ value.fec_registro }}</td>
+                    <td class="text-center align-middle px-0"><a href="{% url 'inventarioComputo:eliminarProducto' value.cod_producto %}" class="shop-tooltip close float-none text-danger" title="" data-original-title="Remove">×</a></td>
                   </tr>
                 {% endfor %}
                 </tbody>
               </table>
             </div>
                 
-            <!-- / Shopping cart table -->     
-            <div class="float-right">
-              <a class="btn btn-primary" href="{% url 'tienda:index' %}" role="button">REGRESAR</a>
-              <a class="btn btn-primary" href="{% url 'tienda:limpiarCarrito' %}" role="button">LIMPIAR</a>
-              <a class="btn btn-primary" href="{% url 'tienda:pedido' %}" role="button">REALIZAR PEDIDO</a>
-              
-            </div>
+            
           </div>
       </div>
   </div>
