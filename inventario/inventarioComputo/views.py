@@ -2,13 +2,12 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 
 from .models import Producto, Colaborador
-from inventarioComputo import gestionProducto
 
 #IMPORTANDO METODOS PARA AUTENTICACIÓN DE USUARIOS
 from django.contrib.auth import authenticate,login,logout
 
 from django.contrib.auth.models import User
-from inventarioComputo.forms import ColaboradorForm,UsuarioForm
+from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -79,35 +78,49 @@ def loginUsuario(request):
     }
     return render(request,'login.html',context)     
 
-def producto(request,cod_producto):
-    objProducto = Producto.objects.get(id=cod_producto) 
+def producto(request,producto_id):  
+    objProducto = Producto.objects.get(id=producto_id) 
     #equivalente a : select * from producto where id = producto_id
     context = {
         "producto":objProducto
     }
     return render(request,'producto.html',context)
 
-def agregarProd(request,cod_producto):
-    objProducto = Producto.objects.get(id=cod_producto)
-    gestionarProd = gestionProducto(request)
-    gestionarProd.add(objProducto,1)
-    print(request.session.get("gestionar"))
-    return render(request,'gestionProducto.html')
-
-def eliminarProducto(request):
-    objProducto = Producto.objects.get(id=cod_producto)
-    gestionarProd = gestionProducto(request)
-    gestionarProd.add(objProducto) 
-    print(request.session.get("gestionar"))
-    return render(request, 'gestionProducto.html')
-
-            
-def gestionar(request):
-    print(request.session.get("gestionProducto"))
-    return render(request,'gestionProducto.html')
+def crearProducto (request):
+    if request.POST:
+     frmProducto = ProductoForm(request.POST)
+     
+     if frmProducto.is_valid():
+        frmProducto.save()
+        return redirect('/')
+     
+    return render(request,'crearProducto.html',{'form':ProductoForm})
+ 
+def editarProducto (request,producto_id):
     
+    objProducto = Producto.objects.get(id=producto_id)
+
+    if request.method == 'POST':
+       frmProducto = ProductoForm(instance=objProducto)
+       if frmProducto.is_valid():
+            frmProducto.save()
+            return redirect('/')   
+    
+    return render(request,'crearProducto.html',{'form':ProductoForm}) 
+ 
+def eliminarProducto(request,producto_id):
+    objProducto = Producto.objects.get(id=producto_id)
+       
+    
+    if request.method == 'POST':
+         objProducto.delete()  
+         return redirect('/')
+
+    context= {'item':objProducto}
+    return render(request,'eliminarProducto.html',context) 
+        
 @login_required
-def logout_view(request):
+def logout_view(request,id):
     """Logout a user."""
     logout(request)
     return redirect('/login')    

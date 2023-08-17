@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h2>Registro de nuevo producto</h2>
+    <form 
+    action="{% url 'inventarioComputo:crearProducto' %}" 
+    method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" 
+        value="Registrar">
+    </form>
+</div>
+{% endblock %}

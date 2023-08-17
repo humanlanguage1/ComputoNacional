@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<p>Estás seguro que deseas eliminar "{{item}}"?</p>
+
+<form action="{% url 'inventarioComputo:eliminarProducto' item.id %}" method="POST" >
+
+    {% csrf_token %}
+    <a href="{% url 'inventarioComputo:index' %}"> Cancelar </a>
+
+    <input type="submit" name="Confirmar">
+
+</form>
+
+{% endblock %}

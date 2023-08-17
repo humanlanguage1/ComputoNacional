@@ -12,7 +12,7 @@ from django.db.models.fields import DecimalField, IntegerField, CharField
 
 class Producto(models.Model):
     cod_empresa = models.CharField(max_length=2)
-    cod_producto = models.CharField(primary_key=True, max_length=100)
+    cod_producto = models.CharField(max_length=100)
     cod_proveedor = models.CharField(max_length=11, blank=True, null=True)
     cod_unidad_medida = models.CharField(max_length=3, blank=True, null=True)
     cod_tipo_producto = models.IntegerField()
@@ -57,10 +57,7 @@ class Producto(models.Model):
     ind_serie = models.CharField(max_length=1)
 
     def _str__(self):
-            return self.nombre
-    class Meta:
-        managed = False
-        db_table = 'producto'
+        return self.name
 
 class Colaborador(models.Model):
     usuario = models.OneToOneField(User,on_delete=models.RESTRICT)
