@@ -25,8 +25,18 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'inventarioComputo:crearProducto' %}">Registrar producto</a></li>
                     </ul>
-                    <a href="{% url 'inventarioComputo:login' %}" class="btn btn-primary">LOGIN</a>
-                    <a href="{% url 'inventarioComputo:logout' %}" class="btn btn-primary">LOGOUT</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        {% if not request.user.is_authenticated%}
+                        <li class="nav-item">    
+                            <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">    
+                            <a href={% url 'logout' %}>Cerrar Sesión</a>
+                        </li>
+                        {% endif %}
+                    </ul>                    
+
                     </a>
                 </div>
             </div>

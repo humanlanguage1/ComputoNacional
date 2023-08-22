@@ -46,37 +46,7 @@ def registro(request):
     context = {
          'frmColaborador': frmColaborador
      }     
-    return render(request,'registroColaborador.html',context)
-     
-def loginUsuario(request):
-    frmUsuario = UsuarioForm()
-    
-    if request.method == 'POST':
-        frmLogin = UsuarioForm(request.POST)
-        
-        if frmLogin.is_valid():
-            data = frmLogin.cleaned_data
-            dataUsuario = data['usuario']
-            dataPassword = data['clave']
-            
-            loginUsuario = authenticate(request,username=dataUsuario,password=dataPassword)
-            if loginUsuario is not None:
-                print("ok")
-                login(request,loginUsuario)
-                return render(request,'cuenta.html')
-            else:
-                print("error")
-                context = {
-                    'form':frmUsuario,
-                    'error':'datos erroneos'
-                }
-                return render(request,'login.html',context)
-            
-    
-    context = {
-        'form':frmUsuario
-    }
-    return render(request,'login.html',context)     
+    return render(request,'registroColaborador.html',context)  
 
 def producto(request,producto_id):  
     objProducto = Producto.objects.get(id=producto_id) 
@@ -118,9 +88,4 @@ def eliminarProducto(request,producto_id):
 
     context= {'item':objProducto}
     return render(request,'eliminarProducto.html',context) 
-        
-@login_required
-def logout_view(request,id):
-    """Logout a user."""
-    logout(request)
-    return redirect('/login')    
+         
