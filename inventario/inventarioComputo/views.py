@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-
+from django.http import HttpResponse
 from .models import Producto, Colaborador
-
+from django.conf import settings
+from django.views.generic.base import TemplateView
 #IMPORTANDO METODOS PARA AUTENTICACIÓN DE USUARIOS
 from django.contrib.auth import authenticate,login,logout
 
@@ -88,4 +89,7 @@ def eliminarProducto(request,producto_id):
 
     context= {'item':objProducto}
     return render(request,'eliminarProducto.html',context) 
+
+#metodos para utiizar el Service Worker de Django
+         
          
