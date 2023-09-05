@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponse
+
+from .utils import get_plot, get_prediction
 from .models import Producto, Colaborador
 from django.conf import settings
 from django.views.generic.base import TemplateView
@@ -10,6 +12,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
+import pandas as pd 
 # Create your views here.
 
 def index(request):
@@ -90,6 +93,22 @@ def eliminarProducto(request,producto_id):
     context= {'item':objProducto}
     return render(request,'eliminarProducto.html',context) 
 
-#metodos para utiizar el Service Worker de Django
-         
+#metodos para visualizar los gráficos
+def reporte(request):
+    qs= Producto.objects.all()
+    x = [x.cod_producto for x in qs]
+    y = [y.stk_minimo for y in qs]   
+    chart = get_plot(x,y) 
+    return render(request, 'reporte.html', {'chart':chart})
+
+def prediccion(request):
+    qs= Producto.objects.all()
+    x = [x.fec_registro for x in qs]
+    y = [y.stk_minimo for y in qs]   
+    chart = get_prediction(x,y) 
+    return render(request, 'prediccion.html', {'chart':chart})   
+
+
+
+
          
