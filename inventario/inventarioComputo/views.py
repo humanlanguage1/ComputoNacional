@@ -103,8 +103,8 @@ def reporte(request):
 
 def prediccion(request):
     qs= Producto.objects.all()
-    x = [x.fec_registro for x in qs]
-    y = [y.stk_minimo for y in qs]   
+    x = [x.stk_minimo for x in qs]
+    y = [y.stk_proveedor for y in qs]   
     chart = get_prediction(x,y) 
     return render(request, 'prediccion.html', {'chart':chart})   
 

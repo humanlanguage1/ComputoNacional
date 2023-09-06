@@ -39,16 +39,22 @@ def get_plot(x,y):
     graph= get_graph()
     return graph 
 
-def get_prediction(x,y):
-    plt.switch_backend('AGG')
-    plt.figure(figsize=(10,5))    
-    plt.title('Stock disponible en el futuro')
-    plt.legend()
-    plt.xticks(rotation=45)
-    x = pd.to_datetime(x)
-    plt.plot_date(x,y,linestyle='solid')
+def get_prediction(x, y):
+    x = pd.array(x)
+    y = pd.array(y)
+    #construcción del modelo
+    X_train, X_test, Y_train, Y_test = train_test_split(x.reshape(-1, 1), y, test_size=0.3, random_state=42)
+    lin_reg = LinearRegression()
+    lin_reg.fit(X_train, Y_train)
+    predicciones = lin_reg.predict(X_test)
+    #representación gráfica
+    plt.xlabel('Stock disponible')
+    plt.ylabel('Stock de predicción')
+    plt.scatter(Y_test, predicciones)
+    #plt.plot(X_test, predicciones, "g-") 
     plt.grid(True)
-    graph= get_graph()
+    get_graph()
+    graph = plt.show()
     return graph
 
 
