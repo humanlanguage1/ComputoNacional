@@ -17,7 +17,12 @@ import pandas as pd
 def index(request):
     lista_productos = Producto.objects.all()
     print(settings.MEDIA_URL)
-    context = {'lstProductos': lista_productos}
+    qs= Producto.objects.all()
+    x = [x.cod_producto for x in qs]
+    y = [y.stk_minimo for y in qs]   
+    chart = get_plot(x,y)
+    context = {'lstProductos': lista_productos,
+               'chart': chart}
     return render(request,'index.html',context)
 
 def listaProd(request):
@@ -106,6 +111,7 @@ def reporte(request):
     chart = get_plot(x,y) 
     return render(request, 'reporte.html', {'chart':chart})
 
+
 def prediccion(request):
     qs= Producto.objects.all()
     x = [x.stk_minimo for x in qs]
@@ -117,8 +123,7 @@ def dashboard(request):
 
     pass
 
-
-
+    
 
 
 

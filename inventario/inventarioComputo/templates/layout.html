@@ -70,6 +70,7 @@
                     <li><a ><i class="fa fa-edit"></i> Gestionar producto <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{% url 'inventarioComputo:crearProducto' %}">Registrar Producto</a></li>
+                            <li><a href="#">Escanear Código</a></li>
                             <li><a href="{% url 'inventarioComputo:listaProd' %}">Ver Productos</a></li>
                           </ul>
                     </li>
@@ -102,11 +103,13 @@
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="{{request.user.username}}" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"> {{request.user.username}}
                     </a>
-                    <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item"  href="javascript:;"> Perfil</a>
                         {% if not request.user.is_authenticated%}
+                        
+                        <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a  class="dropdown-item" href="{% url 'login' %}" class="btn btn-primary"><i class="fa fa-sign-out pull-right"></i>Iniciar Sesión</a>
-                        {% else %}   
+                        {% else %}  
+                        <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"  href="cuenta.html"> Perfil</a> 
                         <a href={% url 'logout' %}><i class="fa fa-sign-out pull-right"></i>Cerrar Sesión</a>
                         {% endif %}     
                     </div>
