@@ -14,12 +14,17 @@ from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
 import pandas as pd 
 # Create your views here.
-
 def index(request):
     lista_productos = Producto.objects.all()
     print(settings.MEDIA_URL)
     context = {'lstProductos': lista_productos}
     return render(request,'index.html',context)
+
+def listaProd(request):
+    lista_productos = Producto.objects.all()
+    print(settings.MEDIA_URL)
+    context = {'lstProductos': lista_productos}
+    return render(request,'listaProd.html',context)
 
 def registro(request):
     frmColaborador = ColaboradorForm()
@@ -107,6 +112,12 @@ def prediccion(request):
     y = [y.stk_proveedor for y in qs]   
     chart = get_prediction(x,y) 
     return render(request, 'prediccion.html', {'chart':chart})   
+
+def dashboard(request):
+
+    pass
+
+
 
 
 

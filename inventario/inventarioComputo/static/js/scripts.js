@@ -5,3 +5,7 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+$('#dtBasicExample').mdbEditor({
+    mdbEditor: true
+  });
+  $('.dataTables_length').addClass('bs-select');
