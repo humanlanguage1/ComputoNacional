@@ -1,6 +1,10 @@
+from audioop import avg
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import HttpResponse
+from flask import request
+
+from .dashboard import get_piechart, get_plot1
 
 from .utils import get_plot, get_prediction
 from .models import Producto, Colaborador
@@ -13,17 +17,34 @@ from django.contrib.auth.models import User
 from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
 import pandas as pd 
+from django.db.models import Avg
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def index(request):
+   
     lista_productos = Producto.objects.all()
+    lista_usuarios = User.objects.all()
     print(settings.MEDIA_URL)
     qs= Producto.objects.all()
+   # promedio_stock = qs.aggregate(Avg('stk_minimo'))
+    total_stock = 0
+    for item in qs:
+        total_stock += item.stk_minimo
     x = [x.cod_producto for x in qs]
-    y = [y.stk_minimo for y in qs]   
-    chart = get_plot(x,y)
+    y = [y.cod_categoria for y in qs]   
+    tabla = get_plot1(x,y) 
+   # piechart = get_piechart(x,y)  
     context = {'lstProductos': lista_productos,
-               'chart': chart}
+               'tabla': tabla,
+              # 'piechart': piechart,
+               'total_stock': total_stock,
+               'lista_usuarios': lista_usuarios,
+               }
+    
     return render(request,'index.html',context)
+
 
 def listaProd(request):
     lista_productos = Producto.objects.all()
@@ -123,7 +144,7 @@ def dashboard(request):
 
     pass
 
-    
+
 
 
 

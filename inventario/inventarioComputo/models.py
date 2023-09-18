@@ -8,6 +8,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields import DecimalField, IntegerField, CharField
+from django.db.models import Avg
 
 
 class Producto(models.Model):
@@ -58,6 +59,7 @@ class Producto(models.Model):
 
     def _str__(self):
         return self.name
+    
 
 class Colaborador(models.Model):
     usuario = models.OneToOneField(User,on_delete=models.RESTRICT)

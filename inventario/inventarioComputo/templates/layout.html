@@ -40,7 +40,8 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-                <a href="index.html" class="site_title"></i> <span>Inventario Computo Nacional</span></a>
+              
+                <a href="/" class="site_title"></i> <span>Inventario Computo Nacional</span></a>
              </div>
 
             <div class="clearfix"></div>
@@ -76,8 +77,6 @@
                     </li>
                  <li><a href="{% url 'inventarioComputo:reporte' %}"><i class="fa fa-table"></i> Ver Reporte</span></a>
                     </li>
-                    <li><a href="{% url 'inventarioComputo:prediccion' %}"><i class="fa fa-bar-chart-o"></i> Generar Predicción </a>
-                    </li>
                 </ul>
               </div>
 
@@ -88,7 +87,22 @@
 
             </div>
             <!-- /sidebar menu -->
-
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
           </div>
         </div>
 
@@ -101,6 +115,7 @@
               <nav class="nav navbar-nav">
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
+                  
                     <a href="{{request.user.username}}" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"> {{request.user.username}}
                     </a>
                         {% if not request.user.is_authenticated%}

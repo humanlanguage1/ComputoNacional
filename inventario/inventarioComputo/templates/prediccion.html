@@ -1,11 +1,9 @@
+
 {% extends "layout.html" %}
-
-
-
 {% block content %}
-
+<div class="right_col" role="main">
     {% if chart %}
         <img src="data:image/png;base64, {{ chart|safe}}">
     {% endif %}
-
+</div>
 {% endblock content %}    

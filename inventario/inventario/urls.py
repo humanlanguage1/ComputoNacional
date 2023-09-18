@@ -20,6 +20,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls import static
 from django.http import HttpResponse
+from django.contrib.auth.views import LoginView
 
 
 
@@ -30,5 +31,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('pwa.urls')),
+    path('login/', 
+        LoginView.as_view(
+            template_name='registration/login.html'
+        ), 
+        name="login"
+    ),
 ]
 

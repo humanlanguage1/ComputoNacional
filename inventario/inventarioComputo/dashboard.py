@@ -6,13 +6,40 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import seaborn as sn
 import pandas as pd 
+import plotly.express as px
 from sklearn import metrics
 import datetime as dt
 from sktime.forecasting.base import ForecastingHorizon
 from sktime.forecasting.model_selection import temporal_train_test_split
 from sktime.forecasting.theta import ThetaForecaster
 from sktime.performance_metrics.forecasting import mean_absolute_percentage_error
+from dash import Dash, dcc, html, Input, Output
+import plotly.express as px
 
+df = px.data.tips()
+
+app = Dash(__name__)
+
+app.layout = html.Div(
+    [
+        html.H4("Analysis of the restaurant sales"),
+        dcc.Graph(id="graph"),
+        html.P("Names:"),
+        dcc.Dropdown(
+            id="names",
+            options=["smoker", "day", "time", "sex"],
+            value="day",
+            clearable=False,
+        ),
+        html.P("Values:"),
+        dcc.Dropdown(
+            id="values",
+            options=["total_bill", "tip", "size"],
+            value="total_bill",
+            clearable=False,
+        ),
+    ]
+)
 #Método para generar grafico
 def get_graph():
     buffer = BytesIO()
@@ -25,37 +52,24 @@ def get_graph():
     return graph
 
 #Método para generar los plots
-def get_plot(x,y):
+def get_plot1(x,y):
     plt.switch_backend('AGG')
     plt.figure(figsize=(14,7))
-    plt.title('Stock disponible')
-    plt.plot(x,y)
+    plt.title('Categorías y Productos')
+    plt.scatter(x,y)
     plt.xticks(rotation=45)
-    plt.xlabel('Categoría')
-    plt.ylabel('Producto')
+    plt.xlabel('Codigo de producto')
+    plt.ylabel('Categoria de producto')
     plt.tight_layout()
     plt.legend()
     plt.grid(True)    
     graph= get_graph()
     return graph 
 
-def get_prediction(x, y):
-    x = pd.array(x)
-    y = pd.array(y)
-    #construcción del modelo
-    X_train, X_test, Y_train, Y_test = train_test_split(x.reshape(-1, 1), y, test_size=0.3, random_state=42)
-    lin_reg = LinearRegression()
-    lin_reg.fit(X_train, Y_train)
-    predicciones = lin_reg.predict(X_test)
-    #representación gráfica
+def get_piechart(x1,y1):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(14,7))
-    plt.xlabel('Stock disponible')
-    plt.ylabel('Stock de predicción')
-    plt.scatter(Y_test, predicciones)
-    #plt.plot(X_test, predicciones, "g-") 
-    plt.grid(True)
-    graph = get_graph()
+    fig = px.pie(x1, y1)
+    plt.legend()
+    graph= fig.show()   
     return graph
-
 
