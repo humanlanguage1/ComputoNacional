@@ -23,24 +23,39 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
-   
+    labels = []
+    data = []
+    labels1 = []
+    data1 = []
     lista_productos = Producto.objects.all()
     lista_usuarios = User.objects.all()
     print(settings.MEDIA_URL)
     qs= Producto.objects.all()
+    queryset= Producto.objects.order_by('-stk_minimo')[:5]
+    queryset1= Producto.objects.order_by('-pre_venta_oferta')[:5]
+    for producto in queryset:
+        labels.append(producto.cod_producto)
+        data.append(producto.stk_minimo)
+        
+    for producto in queryset1:
+        labels1.append(producto.cod_producto)
+        data1.append(producto.pre_venta_oferta)       
    # promedio_stock = qs.aggregate(Avg('stk_minimo'))
     total_stock = 0
     for item in qs:
         total_stock += item.stk_minimo
     x = [x.cod_producto for x in qs]
     y = [y.cod_categoria for y in qs]   
-    tabla = get_plot1(x,y) 
-   # piechart = get_piechart(x,y)  
+    tabla = get_plot1(x,y)  
     context = {'lstProductos': lista_productos,
                'tabla': tabla,
               # 'piechart': piechart,
                'total_stock': total_stock,
                'lista_usuarios': lista_usuarios,
+               'labels': labels,
+               'data': data,
+               'labels1': labels1,
+               'data1': data1,
                }
     
     return render(request,'index.html',context)
