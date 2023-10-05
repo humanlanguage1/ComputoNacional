@@ -11,7 +11,9 @@ services:
       - echo Prebuild ops
       - pip3 install -r requirements.txt
     build: .
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    commands: 
+      - bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      - echo Building the application 
 
 
     volumes:
