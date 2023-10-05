@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'inventario.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'computosmartnet1402',
+        'NAME': 'inventario-computo',
         'USER': 'postgres',
         'PASSWORD': 'magdalena149',
         'HOST': 'computosmartnet1402.csj0ahf0ywyn.us-east-1.rds.amazonaws.com',
