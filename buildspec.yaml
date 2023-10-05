@@ -13,6 +13,7 @@ services:
     build: .
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 
+
     volumes:
       - .:/app
     ports:
@@ -21,5 +22,12 @@ services:
       - db
     env_file:
       - .env
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: base_dir
+  name: build-artifact-name
+  discard-paths: no      
 
 
