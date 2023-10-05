@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'computo_smartnet1402',
         'USER': 'postgres',
         'PASSWORD': 'magdalena149',
-        'HOST': '18.204.201.113',
+        'HOST': 'ec2-18-204-201-113.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
