@@ -2,4 +2,4 @@
 
 virtualenv /home/ubuntu/env
 source /home/ubuntu/env/bin/activate
-pip install -r /home/ubuntu/ComputoNacional/inventario/requirements.txt
+pip install -r /home/ubuntu/ComputoNacional/requirements.txt
