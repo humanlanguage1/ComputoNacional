@@ -20,6 +20,11 @@ import pandas as pd
 from django.db.models import Avg
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+import cv2
+from pyzbar.pyzbar import decode
+from pydub import AudioSegment
+from pydub.playback import play
+
 # Create your views here.
 @login_required(login_url='/accounts/login/')
 def index(request):
@@ -159,6 +164,38 @@ def dashboard(request):
 
     pass
 
+def verCodigoBarras(request):
+    video= cv2.VideoCapture(1)
+    success, frame = video.read()
+    detector = cv2.barcode.BarcodeDetector()
+    
+    while video.isOpened():
+        while success:
+            cv2.imshow('frame', frame)
+            detectedBarcode = decode(frame)
+            if cv2.waitKey(1) == ord('q'):
+                break
+            success, frame = video.read()
+            if not detectedBarcode:
+                print("No any Barcode Detected")
+            else:
+        # codes in barcode 
+                for barcode in detectedBarcode:
+                    # if barcode is not blank 
+                    if barcode.data != "":
+                        detectedBarcode = decode(frame)
+                        cv2.putText(frame,str(barcode.data),(50,50),cv2.FONT_HERSHEY_COMPLEX,2,(0,255,255),2)
+                        cv2.imwrite("barcode.png",frame)
+                        
+                                    
+        text = str(barcode.data)
+        video.release()
+        cv2.destroyAllWindows()
+        context = {
+            "text" : text
+        }
+    
+    return render(request, 'verCodigoBarras.html', context)
 
 
 

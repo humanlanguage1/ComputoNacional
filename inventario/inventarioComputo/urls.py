@@ -17,5 +17,6 @@ urlpatterns = [
     path('reporte', views.reporte, name='reporte'),
     path('prediccion', views.prediccion, name='prediccion'),
     path('dashboard', views.dashboard, name='dashboard'),
+    path('verCodigoBarras', views.verCodigoBarras, name='verCodigoBarras'),
    # path('cuenta', views.cuenta, name='cuenta'),
 ]
