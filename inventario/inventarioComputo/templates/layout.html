@@ -71,7 +71,7 @@
                     <li><a ><i class="fa fa-edit"></i> Gestionar producto <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{% url 'inventarioComputo:crearProducto' %}">Registrar Producto</a></li>
-                            <li><a href="#">Escanear Código</a></li>
+                            <li><a href="{% url 'inventarioComputo:verCodigoBarras' %}">Escanear Código</a></li> 
                             <li><a href="{% url 'inventarioComputo:listaProd' %}">Ver Productos</a></li>
                           </ul>
                     </li>
