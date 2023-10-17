@@ -197,6 +197,9 @@ def verCodigoBarras(request):
     
     return render(request, 'verCodigoBarras.html', context)
 
+def nosotros (request):
+    return render(request, 'nosotros.html')
+
 
 
 

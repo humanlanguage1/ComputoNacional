@@ -18,5 +18,6 @@ urlpatterns = [
     path('prediccion', views.prediccion, name='prediccion'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('verCodigoBarras', views.verCodigoBarras, name='verCodigoBarras'),
+    path('nosotros', views.nosotros, name='nosotros'),
    # path('cuenta', views.cuenta, name='cuenta'),
 ]
