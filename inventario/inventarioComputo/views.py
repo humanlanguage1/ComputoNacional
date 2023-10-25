@@ -18,6 +18,7 @@ from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
 import pandas as pd 
 from django.db.models import Avg
+from django.db.models import Q
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 import cv2
@@ -67,8 +68,17 @@ def index(request):
 
 
 def listaProd(request):
+    busqueda = request.POST.get("buscar")
     lista_productos = Producto.objects.all()
     print(settings.MEDIA_URL)
+    
+    if busqueda: 
+        lista_productos = Producto.objects.filter(
+           Q(id__icontains=busqueda) |
+           Q(cod_producto__icontains= busqueda) |
+           Q(des_producto__icontains= busqueda)
+        ).distinct() 
+        
     context = {'lstProductos': lista_productos}
     return render(request,'listaProd.html',context)
 
