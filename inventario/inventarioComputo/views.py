@@ -18,12 +18,20 @@ from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
 import pandas as pd 
 from django.db.models import Avg
+from django.db.models import Q
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 import cv2
 from pyzbar.pyzbar import decode
 from pydub import AudioSegment
 from pydub.playback import play
+# Import PDF Stuff
+from django.http import FileResponse
+import io
+import reportlab
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -67,8 +75,17 @@ def index(request):
 
 
 def listaProd(request):
+    busqueda = request.POST.get("buscar")
     lista_productos = Producto.objects.all()
     print(settings.MEDIA_URL)
+    
+    if busqueda: 
+        lista_productos = Producto.objects.filter(
+           Q(id__icontains=busqueda) |
+           Q(cod_producto__icontains= busqueda) |
+           Q(des_producto__icontains= busqueda)
+        ).distinct() 
+        
     context = {'lstProductos': lista_productos}
     return render(request,'listaProd.html',context)
 
@@ -199,6 +216,54 @@ def verCodigoBarras(request):
 
 def nosotros (request):
     return render(request, 'nosotros.html')
+
+def verPdf(request):
+	# Create Bytestream buffer
+        buf = io.BytesIO()
+        # Create a canvas
+        c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+        # Create a text object
+        textob = c.beginText()
+        textob.setTextOrigin(inch, inch)
+        textob.setFont("Helvetica", 14)
+
+        # Add some lines of text
+        #lines = [
+        #	"This is line 1",
+        #	"This is line 2",
+        #	"This is line 3",
+        #]
+        
+        # Designate The Model
+        productos = Producto.objects.all()
+
+        # Create blank list
+        lines = []
+
+        for producto in productos:
+            lines.append(producto.des_producto)
+            lines.append(str(producto.fec_registro))
+            lines.append(" ")
+
+        # Loop
+        for line in lines:
+            textob.textLine(line)
+
+        # Finish Up
+        c.drawText(textob)
+        c.showPage()
+        c.save()
+        buf.seek(0)
+            
+        return FileResponse(buf, as_attachment=True, filename='productos.pdf')
+
+
+   
+                
+            
+        
+
+    
 
 
 
