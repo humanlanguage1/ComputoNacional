@@ -4,7 +4,7 @@ files:
   - source: /
     destination: /home/ubuntu/ComputoNacional
 permissions:
-  - object: /home/ubuntu/blogprojectdrf
+  - object: /home/ubuntu/ComputoNacional
     owner: ubuntu
     group: ubuntu
 hooks:
