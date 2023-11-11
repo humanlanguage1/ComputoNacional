@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
@@ -12,6 +13,8 @@ from sktime.forecasting.base import ForecastingHorizon
 from sktime.forecasting.model_selection import temporal_train_test_split
 from sktime.forecasting.theta import ThetaForecaster
 from sktime.performance_metrics.forecasting import mean_absolute_percentage_error
+from xhtml2pdf import pisa
+from django.template.loader import get_template
 
 #Método para generar grafico
 def get_graph():
@@ -57,5 +60,14 @@ def get_prediction(x, y):
     plt.grid(True)
     graph = get_graph()
     return graph
+
+def render_to_pdf(template_src, context_dict={}):
+    template= get_template(template_src)
+    html=template.render(context_dict)
+    result=BytesIO()
+    pdf=pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type="application/pdf")    
+    return None
 
 

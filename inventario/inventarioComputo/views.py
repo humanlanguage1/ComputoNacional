@@ -6,7 +6,7 @@ from flask import request
 
 from .dashboard import get_piechart, get_plot1
 
-from .utils import get_plot, get_prediction
+from .utils import get_plot, get_prediction, render_to_pdf
 from .models import Producto, Colaborador
 from django.conf import settings
 from django.views.generic.base import TemplateView
@@ -27,11 +27,13 @@ from pydub import AudioSegment
 from pydub.playback import play
 # Import PDF Stuff
 from django.http import FileResponse
+from django.views.generic import View
 import io
 import reportlab
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+
 
 # Create your views here.
 @login_required(login_url='/accounts/login/')
@@ -137,18 +139,110 @@ def crearProducto (request):
         return redirect('/')
      
     return render(request,'crearProducto.html',{'form':ProductoForm})
- 
-def editarProducto (request,producto_id):
-    
-    objProducto = Producto.objects.get(id=producto_id)
 
-    if request.method == 'POST':
-       frmProducto = ProductoForm(instance=objProducto)
-       if frmProducto.is_valid():
-            frmProducto.save()
-            return redirect('/')   
+def edicionProducto(request,producto_id):
+    producto = Producto.objects.get(id=producto_id) 
+    form = ProductoForm(request.POST or None, instance = producto)
+    if form.is_valid():
+        form.save()
+        return redirect('/listaProd')
+    return render(request, "edicionProducto.html", {'producto': producto, 'form':form})    
+ 
+def editarProducto (request):
     
-    return render(request,'crearProducto.html',{'form':ProductoForm}) 
+    cod_empresa  = request.POST['cod_empresa']
+    cod_producto  = request.POST['cod_producto']
+    cod_proveedor  = request.POST['cod_proveedor']
+    cod_unidad_medida  = request.POST['cod_unidad_medida']
+    cod_tipo_producto  = request.POST['cod_tipo_producto']
+    cod_garantia = request.POST['cod_garantia']
+    cod_linea_producto = request.POST['cod_linea_producto']
+    cod_categoria = request.POST['cod_categoria']
+    cod_marca = request.POST['cod_marca']
+    cod_presentacion = request.POST['cod_presentacion']
+    cod_procedencia = request.POST['cod_procedencia']
+    des_producto = request.POST['des_producto']
+    des_adicional = request.POST['des_adicional']
+    des_tecnicas = request.POST['des_tecnicas']
+    des_info_adicional = request.POST['des_info_adicional']
+    num_parte = request.POST['num_parte']
+    cod_barra = request.POST['cod_barra']
+    fec_registro = request.POST['fec_registro']
+    stk_minimo = request.POST['stk_minimo']
+    stk_proveedor = request.POST['stk_proveedor']
+    pre_costo_promedio_anterior = request.POST['pre_costo_promedio_anterior']
+    pre_costo_promedio = request.POST['pre_costo_promedio']
+    pre_compra_base = request.POST['pre_compra_base']
+    pre_venta_base_anterior = request.POST['pre_venta_base_anterior']
+    pre_venta_base = request.POST['pre_venta_base']
+    pre_unitario_base_anterior = request.POST['pre_unitario_base_anterior']
+    pre_unitario_base = request.POST['pre_unitario_base']
+    pre_venta_oferta = request.POST['pre_venta_oferta']
+    pre_unitario_oferta = request.POST['pre_unitario_oferta']
+    des_web_referencial = request.POST['des_web_referencial']
+    ind_servicio = request.POST['ind_servicio']
+    ind_autogenerado = request.POST['ind_autogenerado']
+    ind_lote_serie1 = request.POST['ind_lote_serie1']
+    ind_activo_web = request.POST['ind_activo_web']
+    ind_mostrar_portal = request.POST['ind_mostrar_portal']
+    ind_catalogo = request.POST['ind_catalogo']
+    ind_lote = request.POST['ind_lote']
+    ind_importado = request.POST['ind_importado']
+    ind_activo = request.POST['ind_activo']
+    code_user_insert = request.POST['code_user_insert']
+    date_insert = request.POST['date_insert']
+    code_user_last_update = request.POST['code_user_last_update']
+    date_last_update = request.POST['date_last_update']
+    ind_serie = request.POST['ind_serie']
+    
+    p = Producto.objects.get(cod_producto=cod_producto)
+    p.cod_empresa = cod_empresa
+    p.cod_producto = cod_producto
+    p.cod_proveedor = cod_proveedor
+    p.cod_unidad_medida = cod_unidad_medida 
+    p.cod_tipo_producto = cod_tipo_producto  
+    p.cod_garantia = cod_garantia 
+    p.cod_linea_producto = cod_linea_producto 
+    p.cod_categoria = cod_categoria 
+    p.cod_marca = cod_marca  
+    p.cod_presentacion = cod_presentacion  
+    p.cod_procedencia = cod_procedencia 
+    p.des_producto = des_producto 
+    p.des_adicional = des_adicional 
+    p.des_tecnicas = des_tecnicas 
+    p.des_info_adicional = des_info_adicional 
+    p.num_parte = num_parte 
+    p.cod_barra = cod_barra  
+    p.fec_registro = fec_registro 
+    p.stk_minimo = stk_minimo 
+    p.stk_proveedor = stk_proveedor 
+    p.pre_costo_promedio_anterior = pre_costo_promedio_anterior 
+    p.pre_costo_promedio = pre_costo_promedio 
+    p.pre_compra_base = pre_compra_base 
+    p.pre_venta_base_anterior = pre_venta_base_anterior 
+    p.pre_venta_base = pre_venta_base 
+    p.pre_unitario_base_anterior = pre_unitario_base_anterior 
+    p.pre_unitario_base = pre_unitario_base 
+    p.pre_venta_oferta = pre_venta_oferta 
+    p.pre_unitario_oferta = pre_unitario_oferta  
+    p.des_web_referencial = des_web_referencial 
+    p.ind_servicio = ind_servicio 
+    p.ind_autogenerado = ind_autogenerado 
+    p.ind_lote_serie1 = ind_lote_serie1 
+    p.ind_activo_web = ind_activo_web  
+    p.ind_activo_web = ind_mostrar_portal  
+    p.ind_catalogo = ind_catalogo 
+    p.ind_lote = ind_lote 
+    p.ind_importado = ind_importado 
+    p.ind_activo = ind_activo 
+    p.code_user_insert = code_user_insert 
+    p.date_insert = date_insert 
+    p.code_user_last_update = code_user_last_update 
+    p.date_last_update = date_last_update 
+    p.ind_serie = ind_serie 
+    p.save()
+    
+    return redirect('/')
  
 def eliminarProducto(request,producto_id):
     objProducto = Producto.objects.get(id=producto_id)
@@ -224,8 +318,8 @@ def verPdf(request):
         c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
         # Create a text object
         textob = c.beginText()
-        textob.setTextOrigin(inch, inch)
-        textob.setFont("Helvetica", 14)
+        textob.setTextOrigin(0.5*inch, 0.5*inch)
+        textob.setFont("Helvetica", 8)
 
         # Add some lines of text
         #lines = [
@@ -243,6 +337,7 @@ def verPdf(request):
         for producto in productos:
             lines.append(producto.des_producto)
             lines.append(str(producto.fec_registro))
+            lines.append(str(producto.pre_venta_oferta))
             lines.append(" ")
 
         # Loop
