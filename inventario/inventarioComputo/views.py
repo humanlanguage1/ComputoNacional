@@ -6,7 +6,7 @@ from flask import request
 
 from .dashboard import get_piechart, get_plot1
 
-from .utils import get_plot, get_prediction, render_to_pdf
+from .utils import get_plot, get_prediction
 from .models import Producto, Colaborador
 from django.conf import settings
 from django.views.generic.base import TemplateView
