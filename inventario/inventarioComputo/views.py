@@ -12,7 +12,7 @@ from django.conf import settings
 from django.views.generic.base import TemplateView
 #IMPORTANDO METODOS PARA AUTENTICACIÓN DE USUARIOS
 from django.contrib.auth import authenticate,login,logout
-
+from django.contrib import messages
 from django.contrib.auth.models import User
 from inventarioComputo.forms import ColaboradorForm,UsuarioForm,ProductoForm
 from django.contrib.auth.decorators import login_required
@@ -33,6 +33,7 @@ import reportlab
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+
 
 
 # Create your views here.
@@ -136,7 +137,8 @@ def crearProducto (request):
      
      if frmProducto.is_valid():
         frmProducto.save()
-        return redirect('/')
+        messages.success(request, "Producto Registrado")
+        return redirect('/listaProd')
      
     return render(request,'crearProducto.html',{'form':ProductoForm})
 
@@ -145,6 +147,7 @@ def edicionProducto(request,producto_id):
     form = ProductoForm(request.POST or None, instance = producto)
     if form.is_valid():
         form.save()
+        messages.success(request, "Producto Registrado")
         return redirect('/listaProd')
     return render(request, "edicionProducto.html", {'producto': producto, 'form':form})    
  
@@ -155,7 +158,7 @@ def eliminarProducto(request,producto_id):
     
     if request.method == 'POST':
          objProducto.delete()  
-         return redirect('/')
+         return redirect('/listaProd')
 
     context= {'item':objProducto}
     return render(request,'eliminarProducto.html',context) 
@@ -172,7 +175,7 @@ def reporte(request):
 def prediccion(request):
     qs= Producto.objects.all()
     x = [x.stk_minimo for x in qs]
-    y = [y.stk_proveedor for y in qs]   
+    y = [y.stk_minimo for y in qs]   
     chart = get_prediction(x,y) 
     return render(request, 'prediccion.html', {'chart':chart})   
 

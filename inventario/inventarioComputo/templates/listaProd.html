@@ -20,12 +20,19 @@
     </form>
     
     {% endblock buscador %}
-
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
             <table class="table border-secondary">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Descripción del producto</th>
+                    <th scope="col">Código de Barras</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Cantidad</th>
 
@@ -37,6 +44,7 @@
                   <tr>
                     <th scope="row">{{ producto.id }}</th> 
                     <td>{{ producto.des_producto }}</td>
+                    <td>{{ producto.cod_barra }}</td>
                     <td>S/. {{producto.pre_venta_oferta}}</td>
                     <td>{{producto.stk_minimo}}</td>
                     <td><a class="btn btn-outline-dark mt-auto" href="/edicionProducto/{{ producto.id }}">Editar</a></td>
