@@ -260,6 +260,10 @@ def verPdf(request):
             
         return FileResponse(buf, as_attachment=True, filename='productos.pdf')
 
+def service_worker(request):
+    sw_path = settings.BASE_DIR / "static/js" / "serviceworker.js" 
+    response = HttpResponse(open(sw_path).read(), content_type='application/javascript')
+    return response
 
    
                 

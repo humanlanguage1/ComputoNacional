@@ -7011,3 +7011,22 @@
 
 }));
 //# sourceMappingURL=bootstrap.bundle.js.map
+import "../style/style.css";
+
+import "/js/bootstrap.bundle";
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/serviceworker.js').then(registration => {
+      console.log('SW registration succeeded:', registration);
+      navigator.serviceWorker.ready
+        .then(function (registration) {
+          console.log('SW is active:', registration.active);
+
+
+        });
+    }).catch(registrationError => {
+      console.log('SW registration failed: ', registrationError);
+    });
+  });
+}

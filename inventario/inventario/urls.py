@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls import static
 from django.http import HttpResponse
 from django.contrib.auth.views import LoginView
-
+import inventarioComputo.views
 
 
 
@@ -29,6 +29,7 @@ urlpatterns = [
     
     path('', include('inventarioComputo.urls')),
     path('admin/', admin.site.urls),
+    path('serviceworker.js', inventarioComputo.views.service_worker),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('pwa.urls')),
     path('login/', 

@@ -10,6 +10,10 @@ event.waitUntil(
 );
 });
 
+self.addEventListener('activate', function(event) {
+	console.log('service worker activate');
+  });
+
 self.addEventListener('fetch', function(event) {
 var requestUrl = new URL(event.request.url);
 	if (requestUrl.origin === location.origin) {
