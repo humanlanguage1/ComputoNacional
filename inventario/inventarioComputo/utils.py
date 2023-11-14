@@ -45,7 +45,7 @@ def get_prediction(x, y):
     x = pd.array(x)
     y = pd.array(y)
     #construcción del modelo
-    X_train, X_test, Y_train, Y_test = train_test_split(x.reshape(-1, 1), y, test_size = 0.6, random_state=8)
+    X_train, X_test, Y_train, Y_test = train_test_split(x.reshape(-1, 1), y, test_size = 0.6, random_state=30)
     lin_reg = LinearRegression()
     lin_reg.fit(X_train, Y_train)
     predicciones = lin_reg.predict(X_test)

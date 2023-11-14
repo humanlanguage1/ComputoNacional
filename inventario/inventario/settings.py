@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c2gy#ma9fbiqs^lxewk!n3put3r%2#6qb#*uekw42m6&$n)&5^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['3.83.246.178' , '127.0.0.1' ]
 
@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'inventario.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'inventario-computo',
+        'NAME': 'computo_smartnet1402',
         'USER': 'postgres',
         'PASSWORD': 'magdalena149',
-        'HOST': 'computosmartnet1402.csj0ahf0ywyn.us-east-1.rds.amazonaws.com',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
