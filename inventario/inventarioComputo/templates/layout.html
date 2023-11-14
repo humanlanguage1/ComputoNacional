@@ -2,7 +2,7 @@
 {% load pwa %}
 <!DOCTYPE html>
 <html lang="es">
-
+    {% progressive_web_app_meta %} 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -21,8 +21,7 @@
     <!-- Custom Theme Style -->
     <link href="{% static '/style/custom.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    {% progressive_web_app_meta %}  
-    {% block head %}{% block head %}
+     
   </head>
 
   <body class="nav-md">
