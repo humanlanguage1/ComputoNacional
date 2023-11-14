@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c2gy#ma9fbiqs^lxewk!n3put3r%2#6qb#*uekw42m6&$n)&5^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['44.201.169.192' , '127.0.0.1' ]
 
@@ -156,6 +156,7 @@ PWA_APP_ORIENTATION = 'any'
 PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_DIR = 'ltr'
+PWA_SERVICE_WORKER_PATH= 'static/js/serviceworker.js'
 
 
 
