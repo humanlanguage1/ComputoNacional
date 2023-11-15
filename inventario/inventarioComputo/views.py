@@ -87,7 +87,7 @@ def listaProd(request):
            Q(id__icontains=busqueda) |
            Q(cod_producto__icontains= busqueda) |
            Q(des_producto__icontains= busqueda) |
-           Q(cod_barra= busqueda)
+           Q(cod_barra__icontains= busqueda)
         ).distinct() 
         
     context = {'lstProductos': lista_productos}
