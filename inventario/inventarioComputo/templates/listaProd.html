@@ -11,8 +11,8 @@
       <div class="input-group">
         <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="{{ request.POST.buscar }}">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="submit">
-            <i class="fas fa-search fa-sm"></i>
+          <button type="submit">
+            🔍
           </button>
           <th scope="col"><td><a class="btn btn-outline-dark mt-auto" href="{% url 'inventarioComputo:verPdf' %}">Exportar a PDF</a></td></th>
         </div>

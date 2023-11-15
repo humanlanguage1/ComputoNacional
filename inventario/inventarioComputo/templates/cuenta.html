@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container">
-    <h2>Bienvenido(a) : {{ request.user.first_name  }} - {{ request.user.last_name  }}</h2>
+<div class="right_col" role="main">
+    <img src="\static\img\logo.png" width="500" height="100"/>
+
+
+    <h1>Bienvenido(a) : {{request.user.username}}</h1>
+
 </div>
 {% endblock %}

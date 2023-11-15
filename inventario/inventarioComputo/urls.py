@@ -11,6 +11,7 @@ urlpatterns = [
     path('registro',views.registro,name='registro'),
     path('producto/<int:producto_id>',views.producto,name='producto'),
     path('listaProd',views.listaProd,name='listaProd'),
+    path('cuenta', views.cuenta, name='cuenta'),
     path('crearProducto',views.crearProducto,name='crearProducto'),   
     path('edicionProducto/<int:producto_id>',views.edicionProducto),
     path('eliminarProducto/<int:producto_id>',views.eliminarProducto,name='eliminarProducto'),
@@ -20,6 +21,5 @@ urlpatterns = [
     path('verCodigoBarras', views.verCodigoBarras, name='verCodigoBarras'),
     path('nosotros', views.nosotros, name='nosotros'),
     path('verPdf', views.verPdf, name='verPdf'),
-    
-  #  path('cuenta', views.cuenta, name='cuenta'),
+    path('cuenta', views.cuenta, name='cuenta'),
 ]
